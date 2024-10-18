@@ -1,4 +1,14 @@
+import { join } from 'node:path'
 import { TypeOrmModule, type TypeOrmModuleOptions } from '@nestjs/typeorm'
+
+const pathEntities = join(
+  __dirname,
+  '..',
+  'modules',
+  '**',
+  'entities',
+  '*.entity.{ts,js}',
+)
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'mysql',
@@ -7,7 +17,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   username: 'root',
   password: 'root',
   database: 'guimarbot_db_dev',
-  entities: [],
+  entities: [pathEntities],
   synchronize: true,
 }
 
