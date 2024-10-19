@@ -13,4 +13,10 @@ export class UserService {
   findAll(): Promise<User[]> {
     return this.userRepository.find()
   }
+
+  createUser(data: User) {
+    const newUser = this.userRepository.create(data)
+    // return newUser
+    return this.userRepository.save(newUser)
+  }
 }
