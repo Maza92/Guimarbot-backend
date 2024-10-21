@@ -15,7 +15,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   host: 'localhost',
   port: 3306,
   username: 'root',
-  password: 'sAntamonicab78@',
+  password: 'edison12',
   database: 'guimarbot_db_dev',
   entities: [pathEntities],
   synchronize: true,
