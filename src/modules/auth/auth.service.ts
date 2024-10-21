@@ -2,12 +2,12 @@ import { BadRequestException, Injectable } from '@nestjs/common'
 import { UserService } from '../user/user.service'
 import { RegisterDto } from './dto/register.dto'
 import { LoginDto } from './dto/login.dto'
+import * as bcrypt from 'bcrypt'
 
 @Injectable()
 export class AuthService {
   constructor(private readonly userService: UserService) { }
 
-  //bcrypt implementation for password hashing in the future 
   async register(data: RegisterDto) {
     const { email, password, ...restData } = data
 
@@ -19,7 +19,7 @@ export class AuthService {
     await this.userService.createUser({
       ...restData,
       email,
-      password,
+      password: await bcrypt.hash(password, 4),
     })
 
     return {
@@ -32,7 +32,7 @@ export class AuthService {
     const { email, password } = data
 
     const user = await this.userService.findOneByEmail(email)
-    if (!user || user.password !== password) {
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new BadRequestException('Invalid Credentials.')
     }
 
