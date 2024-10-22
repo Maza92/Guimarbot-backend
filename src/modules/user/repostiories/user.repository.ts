@@ -46,6 +46,6 @@ export class UserRepository {
 
     this.userRepository.merge(userToDisable, { isActive: false })
 
-    return userToDisable
+    return this.userRepository.save(userToDisable)
   }
 }

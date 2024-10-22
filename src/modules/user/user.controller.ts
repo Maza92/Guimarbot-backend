@@ -3,10 +3,7 @@ import { UserService } from './user.service'
 import { User } from './entities/user.entity'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
-
-interface UpdateParams {
-  userId: string
-}
+import { UserParamsDto } from './dto/user-params.dto'
 
 @Controller('/api/user')
 export class UserController {
@@ -18,17 +15,20 @@ export class UserController {
   }
 
   @Post()
-  async createUser(@Body() body: CreateUserDto): Promise<User> {
-    return await this.userService.createUser(body)
+  async createUser(@Body() data: CreateUserDto): Promise<User> {
+    return await this.userService.createUser(data)
   }
 
   @Put('/:userId')
-  async updateUser(@Param() params: UpdateParams, @Body() data: UpdateUserDto) {
+  async updateUser(
+    @Param() params: UserParamsDto,
+    @Body() data: UpdateUserDto,
+  ) {
     return await this.userService.updateUser(Number(params.userId), data)
   }
 
-  @Patch('/:userId')
-  async disableUser(@Param() params: UpdateParams) {
+  @Patch('/disable/:userId')
+  async disableUser(@Param() params: UserParamsDto) {
     return await this.userService.disableUser(Number(params.userId))
   }
 }

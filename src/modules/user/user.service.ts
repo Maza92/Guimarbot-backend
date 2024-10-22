@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { User } from './entities/user.entity'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UserRepository } from './repostiories/user.repository'
@@ -20,11 +20,19 @@ export class UserService {
     return this.userRepository.createUser(data)
   }
 
-  updateUser(id: number, data: UpdateUserDto) {
-    return this.userRepository.udpateUser(id, data)
+  async updateUser(id: number, data: UpdateUserDto) {
+    const user = await this.userRepository.udpateUser(id, data)
+
+    if (!user) throw new NotFoundException('User not found.')
+
+    return user
   }
 
-  disableUser(id: number) {
-    return this.userRepository.disableUser(id)
+  async disableUser(id: number) {
+    const user = await this.userRepository.disableUser(id)
+
+    if (!user) throw new NotFoundException('User not found.')
+
+    return user
   }
 }
