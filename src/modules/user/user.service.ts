@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { User } from './entities/user.entity'
 import { CreateUserDto } from './dto/create-user.dto'
-import { UserRepository } from './repostiories/user.repository'
+import { UserRepository } from './repositories/user.repository'
 import { UpdateUserDto } from './dto/update-user.dto'
 
 @Injectable()
@@ -21,7 +21,7 @@ export class UserService {
   }
 
   async updateUser(id: number, data: UpdateUserDto) {
-    const user = await this.userRepository.udpateUser(id, data)
+    const user = await this.userRepository.updateUser(id, data)
 
     if (!user) throw new NotFoundException('User not found.')
 

@@ -4,7 +4,11 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
+  Relation,
 } from 'typeorm'
+import { Role } from 'src/modules/roles/entities/role.entity'
 
 @Entity()
 export class User {
@@ -25,6 +29,13 @@ export class User {
 
   @Column({ nullable: false, default: true })
   isActive: boolean
+
+  @ManyToMany(() => Role, role => role.users, {
+    nullable: true,
+    cascade: ['recover'],
+  })
+  @JoinTable()
+  roles: Relation<Role[]>
 
   @CreateDateColumn()
   createdAt: Date
