@@ -4,7 +4,11 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
+  Relation,
 } from 'typeorm'
+import { Lesson } from './lesson.entity'
+
 @Entity()
 export class Course {
   @PrimaryGeneratedColumn('increment')
@@ -36,6 +40,9 @@ export class Course {
 
   @Column({ default: false, nullable: true })
   isPublished: boolean
+
+  @OneToMany(() => Lesson, lesson => lesson.course)
+  lessons: Relation<Lesson[]>
 
   @CreateDateColumn()
   createdAt: Date

@@ -7,8 +7,10 @@ import {
   ManyToMany,
   JoinTable,
   Relation,
+  OneToMany,
 } from 'typeorm'
-import { Role } from 'src/modules/roles/entities/role.entity'
+import { Role } from '@modules/roles'
+import { Progress } from '@modules/progress'
 
 @Entity()
 export class User {
@@ -36,6 +38,9 @@ export class User {
   })
   @JoinTable()
   roles: Relation<Role[]>
+
+  @OneToMany(() => Progress, progress => progress.user)
+  progress: Relation<Progress[]>
 
   @CreateDateColumn()
   createdAt: Date

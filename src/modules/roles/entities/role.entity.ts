@@ -1,4 +1,3 @@
-import { User } from 'src/modules/user/entities/user.entity'
 import {
   Column,
   CreateDateColumn,
@@ -8,6 +7,7 @@ import {
   Relation,
   UpdateDateColumn,
 } from 'typeorm'
+import { User } from '@modules/user'
 
 @Entity()
 export class Role {
