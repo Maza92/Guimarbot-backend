@@ -4,10 +4,11 @@ import { User } from './entities/user.entity'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UserParamsDto } from './dto/user-params.dto'
+import { UpdatePasswordDto } from './dto/update-password.dto'
 
 @Controller('/api/user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Get()
   async getAllUser(): Promise<User[]> {
@@ -30,5 +31,10 @@ export class UserController {
   @Patch('/disable/:userId')
   async disableUser(@Param() params: UserParamsDto) {
     return await this.userService.disableUser(Number(params.userId))
+  }
+
+  @Patch('/update-password')
+  async updatePassword(@Body() data: UpdatePasswordDto) {
+    return await this.userService.updateUserPassword(data)
   }
 }

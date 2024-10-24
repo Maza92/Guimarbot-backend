@@ -4,13 +4,14 @@ import { Repository } from 'typeorm'
 import { User } from '../entities/user.entity'
 import { CreateUserDto } from '../dto/create-user.dto'
 import { UpdateUserDto } from '../dto/update-user.dto'
+import { UpdatePasswordDto } from '../dto/update-password.dto'
 
 @Injectable()
 export class UserRepository {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) {}
+  ) { }
 
   findAll(): Promise<User[]> {
     return this.userRepository.find()
@@ -47,5 +48,16 @@ export class UserRepository {
     this.userRepository.merge(userToDisable, { isActive: false })
 
     return this.userRepository.save(userToDisable)
+  }
+
+  async updateUserPassword(updatePasswordDto: UpdatePasswordDto): Promise<User | null> {
+    const { email, newPassword } = updatePasswordDto;
+    const userToUpdate = await this.userRepository.findOne({ where: { email } });
+
+    if (!userToUpdate) return null;
+
+    userToUpdate.password = newPassword;
+
+    return this.userRepository.save(userToUpdate);
   }
 }
