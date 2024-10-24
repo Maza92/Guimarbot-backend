@@ -1,4 +1,5 @@
 import {
+  Column,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -14,6 +15,9 @@ import { Video } from './video.entity'
 export class Lesson {
   @PrimaryGeneratedColumn('increment')
   id: number
+
+  @Column({ nullable: false })
+  description: string
 
   @ManyToOne(() => Course, course => course.lessons)
   @JoinColumn()

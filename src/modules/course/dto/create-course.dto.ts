@@ -6,7 +6,13 @@ import {
   Length,
   Min,
   Max,
+  ValidateNested,
+  IsArray,
+  IsOptional,
+  IsBoolean,
 } from 'class-validator'
+import { Type } from 'class-transformer'
+import { CreateLessonDto } from './create-lesson.dto'
 
 export class CreateCourseDto {
   @IsString()
@@ -40,5 +46,13 @@ export class CreateCourseDto {
   @Max(5)
   averageRating: number
 
+  @IsOptional()
+  @IsBoolean()
   isPublished: boolean
+
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateLessonDto)
+  lesssons: CreateLessonDto[]
 }

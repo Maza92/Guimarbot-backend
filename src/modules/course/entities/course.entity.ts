@@ -41,7 +41,9 @@ export class Course {
   @Column({ default: false, nullable: true })
   isPublished: boolean
 
-  @OneToMany(() => Lesson, lesson => lesson.course)
+  @OneToMany(() => Lesson, lesson => lesson.course, {
+    cascade: ['recover', 'insert', 'update'],
+  })
   lessons: Relation<Lesson[]>
 
   @CreateDateColumn()

@@ -9,13 +9,17 @@ export class CourseRepository {
   constructor(
     @InjectRepository(Course)
     private readonly courseRepository: Repository<Course>,
-  ) { }
+  ) {}
 
   findAll(): Promise<Course[]> {
-    return this.courseRepository.find()
+    return this.courseRepository.find({
+      relations: {
+        lessons: true,
+      },
+    })
   }
 
-  createCourse(data: CreateCourseDto) {
+  createCourse(data: CreateCourseDto): Promise<Course> {
     const newCourse = this.courseRepository.create(data)
     return this.courseRepository.save(newCourse)
   }
