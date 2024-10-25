@@ -1,6 +1,5 @@
 import {
   IsString,
-  IsDecimal,
   IsUrl,
   IsPositive,
   Length,
@@ -10,6 +9,7 @@ import {
   IsArray,
   IsOptional,
   IsBoolean,
+  IsNumber,
 } from 'class-validator'
 import { Type } from 'class-transformer'
 import { CreateLessonDto } from './create-lesson.dto'
@@ -23,8 +23,9 @@ export class CreateCourseDto {
   @Length(20, 500)
   description: string
 
-  @IsDecimal()
+  @IsNumber()
   @Min(0)
+  @Type(() => Number)
   price: number
 
   @IsString()
@@ -41,9 +42,10 @@ export class CreateCourseDto {
   @IsPositive()
   totalLessons: number
 
-  @IsDecimal()
+  @IsNumber()
   @Min(0)
   @Max(5)
+  @Type(() => Number)
   averageRating: number
 
   @IsOptional()

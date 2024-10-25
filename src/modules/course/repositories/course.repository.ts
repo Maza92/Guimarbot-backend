@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Course } from '../entities/course.entity'
 import { CreateCourseDto } from '../dto/create-course.dto'
-import { Repository } from 'typeorm'
+import { ILike, Repository } from 'typeorm'
 
 @Injectable()
 export class CourseRepository {
@@ -15,6 +15,17 @@ export class CourseRepository {
     return this.courseRepository.find({
       relations: {
         lessons: true,
+      },
+    })
+  }
+
+  findOneByTitle(title: string): Promise<Course> {
+    return this.courseRepository.findOne({
+      relations: {
+        lessons: true,
+      },
+      where: {
+        title: ILike(`%${title}%`),
       },
     })
   }
