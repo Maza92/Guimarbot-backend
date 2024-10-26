@@ -2,11 +2,16 @@ import { BadRequestException, Injectable } from '@nestjs/common'
 import { UserService } from '../user/user.service'
 import { RegisterDto } from './dto/register.dto'
 import { LoginDto } from './dto/login.dto'
+import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
+import { TokenResponseDto } from './dto/token-response.dto'
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UserService) { }
+  constructor(
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async register(data: RegisterDto) {
     const { email, password, ...restData } = data
@@ -28,7 +33,7 @@ export class AuthService {
     }
   }
 
-  async login(data: LoginDto) {
+  async login(data: LoginDto): Promise<TokenResponseDto> {
     const { email, password } = data
 
     const user = await this.userService.findOneByEmail(email)
@@ -36,7 +41,12 @@ export class AuthService {
       throw new BadRequestException('Invalid Credentials.')
     }
 
-    // jwt implementation for token generation in the future
-    return true;
+    const payload = { email: user.email, sub: user.id }
+
+    const tokens: TokenResponseDto = {
+      accessToken: this.jwtService.sign(payload),
+      refreshToken: this.jwtService.sign(payload, { expiresIn: '7d' }),
+    }
+    return tokens
   }
 }
