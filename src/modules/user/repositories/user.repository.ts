@@ -11,7 +11,7 @@ export class UserRepository {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) { }
+  ) {}
 
   findAll(): Promise<User[]> {
     return this.userRepository.find()
@@ -50,14 +50,53 @@ export class UserRepository {
     return this.userRepository.save(userToDisable)
   }
 
-  async updateUserPassword(updatePasswordDto: UpdatePasswordDto): Promise<User | null> {
-    const { email, newPassword } = updatePasswordDto;
-    const userToUpdate = await this.userRepository.findOne({ where: { email } });
+  async updateUserPassword(
+    updatePasswordDto: UpdatePasswordDto,
+  ): Promise<User | null> {
+    const { email, newPassword } = updatePasswordDto
+    const userToUpdate = await this.userRepository.findOne({ where: { email } })
 
-    if (!userToUpdate) return null;
+    if (!userToUpdate) return null
 
-    userToUpdate.password = newPassword;
+    userToUpdate.password = newPassword
 
-    return this.userRepository.save(userToUpdate);
+    return this.userRepository.save(userToUpdate)
+  }
+
+  async findAllPaymentByUser(userId: number) {
+    return this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+      relations: {
+        payments: {
+          paymentDetails: {
+            course: true,
+          },
+          paymentMethod: true,
+        },
+      },
+      select: {
+        id: true,
+        payments: {
+          id: true,
+          status: true,
+          totalPayment: true,
+          paymentMethod: {
+            id: true,
+            type: true,
+          },
+          paymentDetails: {
+            id: true,
+            description: true,
+            course: {
+              id: true,
+              title: true,
+              teacherName: true,
+            },
+          },
+        },
+      },
+    })
   }
 }

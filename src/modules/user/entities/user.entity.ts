@@ -11,6 +11,7 @@ import {
 } from 'typeorm'
 import { Role } from '@modules/roles'
 import { Progress } from '@modules/progress'
+import { Payment } from '@modules/payment'
 
 @Entity()
 export class User {
@@ -41,6 +42,9 @@ export class User {
 
   @OneToMany(() => Progress, progress => progress.user)
   progress: Relation<Progress[]>
+
+  @OneToMany(() => Payment, payment => payment.user, { cascade: true })
+  payments: Relation<Payment[]>
 
   @CreateDateColumn()
   createdAt: Date

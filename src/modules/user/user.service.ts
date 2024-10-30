@@ -1,14 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
+import * as bcrypt from 'bcrypt'
 import { User } from './entities/user.entity'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UserRepository } from './repositories/user.repository'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UpdatePasswordDto } from './dto/update-password.dto'
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) { }
+  constructor(private readonly userRepository: UserRepository) {}
 
   findAll(): Promise<User[]> {
     return this.userRepository.findAll()
@@ -39,15 +39,25 @@ export class UserService {
   }
 
   async updateUserPassword(updatePasswordDto: UpdatePasswordDto) {
-    const user = await this.userRepository.findOneByEmail(updatePasswordDto.email);
+    const user = await this.userRepository.findOneByEmail(
+      updatePasswordDto.email,
+    )
 
-    if (!user) throw new NotFoundException('User not found.');
+    if (!user) throw new NotFoundException('User not found.')
 
-    const hashedPassword = await bcrypt.hash(updatePasswordDto.newPassword, 4);
-    updatePasswordDto.newPassword = hashedPassword;
+    const hashedPassword = await bcrypt.hash(updatePasswordDto.newPassword, 4)
+    updatePasswordDto.newPassword = hashedPassword
 
-    await this.userRepository.updateUserPassword(updatePasswordDto);
+    await this.userRepository.updateUserPassword(updatePasswordDto)
 
-    return user;
+    return user
+  }
+
+  async findAllPaymentByUser(userId: number) {
+    const payments = await this.userRepository.findAllPaymentByUser(userId)
+
+    if (!payments) throw new NotFoundException('User not found')
+
+    return payments
   }
 }

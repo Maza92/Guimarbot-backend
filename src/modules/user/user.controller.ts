@@ -8,11 +8,16 @@ import { UpdatePasswordDto } from './dto/update-password.dto'
 
 @Controller('/api/user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @Get()
   async getAllUser(): Promise<User[]> {
     return await this.userService.findAll()
+  }
+
+  @Get('/:userId/payments')
+  async getAllPaymentByUser(@Param() params: UserParamsDto) {
+    return await this.userService.findAllPaymentByUser(Number(params.userId))
   }
 
   @Post()
