@@ -1,3 +1,6 @@
-export interface TitleParam {
-  title: string
+export interface CourseFilter {
+  categoryName?: string;
+  tagNames?: string;
+  minPrice?: number;
+  maxPrice?: number;
 }

@@ -2,10 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { CourseRepository } from './repositories/course.repository'
 import { Course } from './entities/course.entity'
 import { CreateCourseDto } from './dto/create-course.dto'
+import { CourseFilter } from './interfaces/course-filter'
 
 @Injectable()
 export class CourseService {
-  constructor(private readonly courseRepository: CourseRepository) {}
+  constructor(private readonly courseRepository: CourseRepository) { }
 
   findAll(): Promise<Course[]> {
     return this.courseRepository.findAll()
@@ -23,5 +24,11 @@ export class CourseService {
 
   createCourse(data: CreateCourseDto) {
     return this.courseRepository.createCourse(data)
+  }
+  async findAllWithFilters(options?: CourseFilter) {
+    if (Object.keys(options || {}).length > 0) {
+      return this.courseRepository.findAllWithFilters(options);
+    }
+    return this.courseRepository.findAll();
   }
 }

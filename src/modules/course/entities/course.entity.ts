@@ -6,8 +6,12 @@ import {
   UpdateDateColumn,
   OneToMany,
   Relation,
+  ManyToMany,
+  ManyToOne,
 } from 'typeorm'
 import { Lesson } from './lesson.entity'
+import { Tag } from './tag.entity'
+import { Category } from './category.entity'
 
 @Entity()
 export class Course {
@@ -45,6 +49,12 @@ export class Course {
     cascade: ['recover', 'insert', 'update'],
   })
   lessons: Relation<Lesson[]>
+
+  @ManyToMany(() => Tag, tag => tag.courses)
+  tags: Tag[]
+
+  @ManyToOne(() => Category, category => category.courses)
+  category: Category
 
   @CreateDateColumn()
   createdAt: Date
