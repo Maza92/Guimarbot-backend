@@ -3,13 +3,27 @@ import { CourseRepository } from './repositories/course.repository'
 import { Course } from './entities/course.entity'
 import { CreateCourseDto } from './dto/create-course.dto'
 import { CourseFilter } from './interfaces/course-filter'
+import { CategoryRepository } from './repositories/category.repository'
+import { TagRepository } from './repositories/tag.repository'
 
 @Injectable()
 export class CourseService {
-  constructor(private readonly courseRepository: CourseRepository) { }
+  constructor(
+    private readonly courseRepository: CourseRepository,
+    private readonly categoryRepository: CategoryRepository,
+    private readonly tagRepository: TagRepository,
+  ) {}
 
   findAll(): Promise<Course[]> {
     return this.courseRepository.findAll()
+  }
+
+  findAllCategories() {
+    return this.categoryRepository.findAll()
+  }
+
+  findAllTags() {
+    return this.tagRepository.findAll()
   }
 
   async findOneByTitle(title: string): Promise<Course> {
@@ -25,10 +39,11 @@ export class CourseService {
   createCourse(data: CreateCourseDto) {
     return this.courseRepository.createCourse(data)
   }
+
   async findAllWithFilters(options?: CourseFilter) {
     if (Object.keys(options || {}).length > 0) {
-      return this.courseRepository.findAllWithFilters(options);
+      return this.courseRepository.findAllWithFilters(options)
     }
-    return this.courseRepository.findAll();
+    return this.courseRepository.findAll()
   }
 }

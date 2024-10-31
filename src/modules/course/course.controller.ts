@@ -6,11 +6,21 @@ import { TitleParam } from './interfaces/course-filter-title'
 
 @Controller('/api/course')
 export class CourseController {
-  constructor(private readonly courseService: CourseService) { }
+  constructor(private readonly courseService: CourseService) {}
 
   @Get()
   async getAllCourse(): Promise<Course[]> {
     return this.courseService.findAll()
+  }
+
+  @Get('/categories')
+  async getAllCategories() {
+    return this.courseService.findAllCategories()
+  }
+
+  @Get('/tags')
+  async getAllTags() {
+    return this.courseService.findAllTags()
   }
 
   @Get('/find-by-title')
@@ -36,7 +46,7 @@ export class CourseController {
       categoryName,
       tagNames,
       minPrice,
-      maxPrice
-    });
+      maxPrice,
+    })
   }
 }
