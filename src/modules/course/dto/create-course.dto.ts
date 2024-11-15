@@ -10,9 +10,12 @@ import {
   IsOptional,
   IsBoolean,
   IsNumber,
+  IsNotEmpty,
+  Matches,
 } from 'class-validator'
 import { Type } from 'class-transformer'
 import { CreateLessonDto } from './create-lesson.dto'
+import { Level } from '../types'
 
 export class CreateCourseDto {
   @IsString()
@@ -33,7 +36,7 @@ export class CreateCourseDto {
   videoPreviewUrl: string
 
   @IsString()
-  @Length(10, 50)
+  @Length(0, 50)
   teacherName: string
 
   @IsPositive()
@@ -41,6 +44,15 @@ export class CreateCourseDto {
 
   @IsPositive()
   totalLessons: number
+
+  @IsNotEmpty()
+  @Matches(
+    `^${Object.values(Level)
+      .filter(value => typeof value !== 'number')
+      .join('|')}$`,
+    'i',
+  )
+  level: Level
 
   @IsNumber()
   @Min(0)

@@ -5,6 +5,7 @@ import { CreateCourseDto } from './dto/create-course.dto'
 import { CourseFilter } from './interfaces/course-filter'
 import { CategoryRepository } from './repositories/category.repository'
 import { TagRepository } from './repositories/tag.repository'
+import { CareerRepository } from './repositories/career.entity'
 
 @Injectable()
 export class CourseService {
@@ -12,10 +13,11 @@ export class CourseService {
     private readonly courseRepository: CourseRepository,
     private readonly categoryRepository: CategoryRepository,
     private readonly tagRepository: TagRepository,
+    private readonly careerRepository: CareerRepository,
   ) {}
 
-  findAll(): Promise<Course[]> {
-    return this.courseRepository.findAll()
+  findAll({ limit }: { limit: number }): Promise<Course[]> {
+    return this.courseRepository.findAll({ limit })
   }
 
   findAllCategories() {
@@ -24,6 +26,10 @@ export class CourseService {
 
   findAllTags() {
     return this.tagRepository.findAll()
+  }
+
+  findAllCarrer() {
+    return this.careerRepository.findAll()
   }
 
   async findOneByTitle(title: string): Promise<Course> {
@@ -44,6 +50,7 @@ export class CourseService {
     if (Object.keys(options || {}).length > 0) {
       return this.courseRepository.findAllWithFilters(options)
     }
+
     return this.courseRepository.findAll()
   }
 }

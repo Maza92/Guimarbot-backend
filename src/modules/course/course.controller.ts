@@ -9,8 +9,8 @@ export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
   @Get()
-  async getAllCourse(): Promise<Course[]> {
-    return this.courseService.findAll()
+  async getAllCourse(@Query('limit') limit: string): Promise<Course[]> {
+    return this.courseService.findAll({ limit: Number(limit) || undefined })
   }
 
   @Get('/categories')
@@ -21,6 +21,11 @@ export class CourseController {
   @Get('/tags')
   async getAllTags() {
     return this.courseService.findAllTags()
+  }
+
+  @Get('/career')
+  getAllCareer() {
+    return this.courseService.findAllCarrer()
   }
 
   @Get('/find-by-title')
@@ -37,16 +42,16 @@ export class CourseController {
 
   @Get('find-courses')
   async findAll(
-    @Query('category-name') categoryName?: string,
-    @Query('tag-names') tagNames?: string,
-    @Query('min-price') minPrice?: number,
-    @Query('max-price') maxPrice?: number,
+    @Query('categoryId') categoryId?: number,
+    @Query('tagIds') tagIds?: string,
+    @Query('minPrice') minPrice?: number,
+    @Query('maxPrice') maxPrice?: number,
   ) {
     return this.courseService.findAllWithFilters({
-      categoryName,
-      tagNames,
-      minPrice,
-      maxPrice,
+      categoryId,
+      tagIds,
+      minPrice: minPrice || 0,
+      maxPrice: maxPrice || 0,
     })
   }
 }

@@ -10,12 +10,15 @@ export class CourseRepository {
   constructor(
     @InjectRepository(Course)
     private readonly courseRepository: Repository<Course>,
-  ) { }
+  ) {}
 
-  findAll(): Promise<Course[]> {
+  findAll(filters?: { limit: number }): Promise<Course[]> {
+    const { limit } = filters
+
     return this.courseRepository.find({
+      take: limit,
       relations: {
-        lessons: true,
+        tags: true,
       },
     })
   }
@@ -24,6 +27,8 @@ export class CourseRepository {
     return this.courseRepository.findOne({
       relations: {
         lessons: true,
+        tags: true,
+        category: true,
       },
       where: {
         title: ILike(`%${title}%`),
@@ -37,39 +42,34 @@ export class CourseRepository {
   }
 
   async findAllWithFilters(options: CourseFilter): Promise<Course[]> {
-    const {
-      categoryName,
-      tagNames,
-      minPrice,
-      maxPrice
-    } = options;
+    const { categoryId, tagIds, minPrice, maxPrice } = options
 
     const queryBuilder = this.courseRepository
       .createQueryBuilder('course')
-      .leftJoinAndSelect('course.lessons', 'lessons')
       .leftJoinAndSelect('course.category', 'category')
-      .leftJoinAndSelect('course.tags', 'tags');
+      .leftJoinAndSelect('course.tags', 'tags')
 
-    if (categoryName) {
-      queryBuilder.andWhere('category.name = :categoryName', { categoryName });
+    if (typeof minPrice === 'number' && categoryId) {
+      console.log(categoryId)
+      queryBuilder.andWhere('category.id = :categoryId', { categoryId })
     }
 
-    if (tagNames) {
-      const tagNameArray = tagNames.split(',').map(tag => tag.trim());
+    if (tagIds) {
+      const tagNameArray = tagIds.split(',').map(tag => tag.trim())
 
-      queryBuilder.andWhere('tags.name IN (:...tagNames)', {
-        tagNames: tagNameArray
-      });
+      queryBuilder.andWhere('tags.id IN (:...tagIds)', {
+        tagIds: tagNameArray,
+      })
     }
 
-    if (minPrice !== undefined) {
-      queryBuilder.andWhere('course.price >= :minPrice', { minPrice });
+    if (typeof minPrice === 'number' && minPrice !== 0) {
+      queryBuilder.andWhere('course.price >= :minPrice', { minPrice })
     }
 
-    if (maxPrice !== undefined) {
-      queryBuilder.andWhere('course.price <= :maxPrice', { maxPrice });
+    if (typeof minPrice === 'number' && maxPrice !== 0) {
+      queryBuilder.andWhere('course.price <= :maxPrice', { maxPrice })
     }
 
-    return queryBuilder.getMany();
+    return queryBuilder.getMany()
   }
 }
