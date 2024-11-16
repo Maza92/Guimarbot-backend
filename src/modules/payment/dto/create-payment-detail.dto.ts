@@ -1,20 +1,14 @@
+import { ApiProperty } from '@nestjs/swagger'
 import { Type } from 'class-transformer'
 import {
-  IsNotEmpty,
   IsNumber,
-  IsOptional,
-  IsPositive,
-  IsString,
+  IsPositive
 } from 'class-validator'
 
 export class CreatePaymentDetailDto {
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  description: string
-
+  @ApiProperty()
   @IsNumber()
   @IsPositive()
   @Type(() => Number)
-  coureId: number
+  courseId: number
 }

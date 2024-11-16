@@ -5,13 +5,14 @@ import { User } from '../entities/user.entity'
 import { CreateUserDto } from '../dto/create-user.dto'
 import { UpdateUserDto } from '../dto/update-user.dto'
 import { UpdatePasswordDto } from '../dto/update-password.dto'
+import { UpdateUserProfileDto } from '../dto/update-user-profile-dto'
 
 @Injectable()
 export class UserRepository {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) {}
+  ) { }
 
   findAll(): Promise<User[]> {
     return this.userRepository.find()
@@ -98,5 +99,15 @@ export class UserRepository {
         },
       },
     })
+  }
+
+  async updateUserProfile(userId: number, updateProfileData: UpdateUserProfileDto) {
+    const userToUpdate = await this.userRepository.findOne({ where: { id: userId } })
+
+    if (!userToUpdate) return null
+
+    this.userRepository.merge(userToUpdate, updateProfileData)
+
+    return this.userRepository.save(userToUpdate)
   }
 }

@@ -30,6 +30,9 @@ export class User {
   @Column({ nullable: true })
   password?: string
 
+  @Column('text', { nullable: true })
+  profileImage: string
+
   @Column({ nullable: false, default: true })
   isActive: boolean
 

@@ -5,10 +5,11 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UserParamsDto } from './dto/user-params.dto'
 import { UpdatePasswordDto } from './dto/update-password.dto'
+import { UpdateUserProfileDto } from './dto/update-user-profile-dto'
 
 @Controller('/api/user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Get()
   async getAllUser(): Promise<User[]> {
@@ -41,5 +42,15 @@ export class UserController {
   @Patch('/update-password')
   async updatePassword(@Body() data: UpdatePasswordDto) {
     return await this.userService.updateUserPassword(data)
+  }
+
+  @Put('/update-profile/:userId')
+  async updateProfile(@Body() data: UpdateUserProfileDto, @Param() params: UserParamsDto) {
+    return await this.userService.UpdateUserProfile(Number(params.userId), data)
+  }
+
+  @Get('/:userId/data')
+  async getUserData(@Param() params: UserParamsDto) {
+    return await this.userService.getUserData(Number(params.userId))
   }
 }

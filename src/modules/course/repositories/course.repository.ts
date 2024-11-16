@@ -36,6 +36,14 @@ export class CourseRepository {
     })
   }
 
+  findOneById(id: number): Promise<Course> {
+    return this.courseRepository.findOne({
+      where: {
+        id
+      },
+    })
+  }
+
   createCourse(data: CreateCourseDto): Promise<Course> {
     const newCourse = this.courseRepository.create(data)
     return this.courseRepository.save(newCourse)

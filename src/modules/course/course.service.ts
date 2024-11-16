@@ -16,6 +16,7 @@ export class CourseService {
     private readonly careerRepository: CareerRepository,
   ) {}
 
+
   findAll({ limit }: { limit: number }): Promise<Course[]> {
     return this.courseRepository.findAll({ limit })
   }
@@ -52,5 +53,13 @@ export class CourseService {
     }
 
     return this.courseRepository.findAll()
+  }
+
+  async findOneByid(id: number) {
+    const course = await this.courseRepository.findOneById(id)
+
+    if (!course) throw new NotFoundException('Course not found')
+
+    return course
   }
 }

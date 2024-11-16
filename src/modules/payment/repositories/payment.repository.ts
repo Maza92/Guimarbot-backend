@@ -13,16 +13,16 @@ export class PaymentRepository {
 
     @InjectRepository(PaymentDetail)
     private readonly paymentDetailRepository: Repository<PaymentDetail>,
-  ) {}
+  ) { }
 
-  createPayment(dataDto: CreatePaymentDto): Promise<Payment> {
+  createPayment(dataDto: any): Promise<Payment> {
     const { paymentDetails, paymentMethodId, userId, ...restDataDto } = dataDto
 
-    const details = paymentDetails.map(({ coureId, ...restData }) =>
+    const details = paymentDetails.map(({ courseId, ...restData }) =>
       this.paymentDetailRepository.create({
         ...restData,
         course: {
-          id: coureId,
+          id: courseId,
         },
       }),
     )
