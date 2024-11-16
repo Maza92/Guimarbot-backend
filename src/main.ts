@@ -6,6 +6,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
+
   const config = new DocumentBuilder()
     .setTitle('Payment Service - Guimarbot')
     .setDescription('Payment Service API Documentation')
@@ -16,7 +17,12 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  app.useGlobalPipes(new ValidationPipe())
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+    }),
+  )
+
   app.enableCors({
     origin: '*',
     credentials: true,
