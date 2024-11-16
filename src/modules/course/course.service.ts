@@ -12,7 +12,7 @@ export class CourseService {
     private readonly courseRepository: CourseRepository,
     private readonly categoryRepository: CategoryRepository,
     private readonly tagRepository: TagRepository,
-  ) {}
+  ) { }
 
   findAll(): Promise<Course[]> {
     return this.courseRepository.findAll()
@@ -45,5 +45,13 @@ export class CourseService {
       return this.courseRepository.findAllWithFilters(options)
     }
     return this.courseRepository.findAll()
+  }
+
+  async findOneByid(id: number) {
+    const course = await this.courseRepository.findOneById(id)
+
+    if (!course) throw new NotFoundException('Course not found')
+
+    return course
   }
 }
