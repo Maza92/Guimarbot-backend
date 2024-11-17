@@ -1,3 +1,4 @@
+import { PlanModule } from './../plan/plan.module'
 import { Module } from '@nestjs/common'
 import { envConfig } from '@config/env.config'
 import { typeOrmModule } from '@config/database.config'
@@ -10,6 +11,7 @@ import { PaymentModule } from '../payment/payment.module'
 
 @Module({
   imports: [
+    PlanModule,
     envConfig(),
     typeOrmModule(),
     UserModule,
