@@ -39,7 +39,7 @@ export class CourseRepository {
   findOneById(id: number): Promise<Course> {
     return this.courseRepository.findOne({
       where: {
-        id
+        id,
       },
     })
   }
