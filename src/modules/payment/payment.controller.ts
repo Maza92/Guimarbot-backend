@@ -6,7 +6,7 @@ import { ApiBody, ApiTags } from '@nestjs/swagger'
 @ApiTags('payment')
 @Controller('/api/payment')
 export class PaymentController {
-  constructor(private readonly paymentService: PaymentService) { }
+  constructor(private readonly paymentService: PaymentService) {}
 
   // @Get('/')
   // async getPaymentsByUserId() {}

@@ -3,6 +3,7 @@ import { PaymentRepository } from './repositories/payment.repository'
 import { CreatePaymentDto } from './dto/create-payment.dto'
 import { PaymentMethodRepository } from './repositories/payment-method.repository'
 import { CourseService } from '@modules/course/course.service'
+import { ProgressRepository } from '@modules/progress/repositories/progress.repository'
 
 @Injectable()
 export class PaymentService {
@@ -10,19 +11,22 @@ export class PaymentService {
     private readonly paymentRepository: PaymentRepository,
     private readonly paymentMethodRepository: PaymentMethodRepository,
     private readonly courseService: CourseService,
-  ) { }
+    private readonly progressRepository: ProgressRepository,
+  ) {}
 
   getAllPaymentMethod() {
     return this.paymentMethodRepository.findAll()
   }
 
   async createPayment(data: CreatePaymentDto) {
-    const { paymentDetails } = data
+    const { userId, paymentDetails: paymentDetailsDto } = data
     let totalPayment = 0
 
     const updatedPaymentDetails = await Promise.all(
-      paymentDetails.map(async (paymentDetail) => {
-        const course = await this.courseService.findOneByid(paymentDetail.courseId)
+      paymentDetailsDto.map(async paymentDetail => {
+        const course = await this.courseService.findOneById(
+          paymentDetail.courseId,
+        )
 
         if (!course) throw new NotFoundException('Course not found')
 
@@ -35,12 +39,25 @@ export class PaymentService {
       }),
     )
 
-    const payment = {
+    const payment = await this.paymentRepository.createPayment({
       ...data,
-      totalPayment: totalPayment,
+      totalPayment,
       paymentDetails: updatedPaymentDetails,
-    }
+    })
 
-    return this.paymentRepository.createPayment(payment)
+    const { paymentDetails } = payment
+
+    await this.progressRepository.createUserProgress(
+      paymentDetails
+        .map(({ course }) =>
+          course.lessons.map(lesson => ({
+            userId,
+            lessonId: lesson.id,
+          })),
+        )
+        .flat(),
+    )
+
+    return payment
   }
 }

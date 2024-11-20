@@ -1,14 +1,3 @@
-import { Type } from 'class-transformer'
-import { IsNumber, IsPositive } from 'class-validator'
+import { CreateProgressVideoDto } from './create-progress-video.dto'
 
-export class UpdateProgressVideoDto {
-  @IsNumber()
-  @IsPositive()
-  @Type(() => Number)
-  userId: number
-
-  @IsNumber()
-  @IsPositive()
-  @Type(() => Number)
-  lessonId: number
-}
+export class UpdateProgressVideoDto extends CreateProgressVideoDto {}

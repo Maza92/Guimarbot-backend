@@ -6,7 +6,7 @@ import { TitleParam } from './interfaces/course-filter-title'
 
 @Controller('/api/course')
 export class CourseController {
-  constructor(private readonly courseService: CourseService) { }
+  constructor(private readonly courseService: CourseService) {}
 
   @Get()
   async getAllCourse(@Query('limit') limit: string): Promise<Course[]> {
@@ -40,7 +40,7 @@ export class CourseController {
     return this.courseService.createCourse(data)
   }
 
-  @Get('find-courses')
+  @Get('/find-courses')
   async findAll(
     @Query('categoryId') categoryId?: number,
     @Query('tagIds') tagIds?: string,
@@ -55,8 +55,8 @@ export class CourseController {
     })
   }
 
-  @Get(':id')
+  @Get('/:id')
   async getCourseById(@Param('id') id: number): Promise<Course> {
-    return this.courseService.findOneByid(id)
+    return this.courseService.findOneById(id)
   }
 }

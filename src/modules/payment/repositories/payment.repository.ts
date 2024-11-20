@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { PaymentDetail } from '../entities/payment-detail.entity'
 import { Payment } from '../entities/payment.entity'
+import { CreatePaymentDto } from '../dto/create-payment.dto'
 
 @Injectable()
 export class PaymentRepository {
@@ -14,7 +15,9 @@ export class PaymentRepository {
     private readonly paymentDetailRepository: Repository<PaymentDetail>,
   ) {}
 
-  createPayment(dataDto: any): Promise<Payment> {
+  createPayment(
+    dataDto: CreatePaymentDto & { totalPayment: number },
+  ): Promise<Payment> {
     const { paymentDetails, paymentMethodId, userId, ...restDataDto } = dataDto
 
     const details = paymentDetails.map(({ courseId, ...restData }) =>

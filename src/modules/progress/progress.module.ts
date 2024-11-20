@@ -9,5 +9,6 @@ import { ProgressRepository } from './repositories/progress.repository'
   imports: [TypeOrmModule.forFeature([Progress])],
   providers: [ProgressService, ProgressRepository],
   controllers: [ProgressController],
+  exports: [ProgressRepository],
 })
 export class ProgressModule {}

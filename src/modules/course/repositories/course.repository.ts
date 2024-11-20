@@ -38,6 +38,9 @@ export class CourseRepository {
 
   findOneById(id: number): Promise<Course> {
     return this.courseRepository.findOne({
+      relations: {
+        lessons: true,
+      },
       where: {
         id,
       },
