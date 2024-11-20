@@ -8,7 +8,7 @@ import { UpdatePasswordDto } from './dto/update-password.dto'
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) { }
+  constructor(private readonly userRepository: UserRepository) {}
 
   findAll(): Promise<User[]> {
     return this.userRepository.findAll()
@@ -16,6 +16,25 @@ export class UserService {
 
   findOneByEmail(email: string) {
     return this.userRepository.findOneByEmail(email)
+  }
+
+  async findAllCoursesByUserId(userId: number) {
+    const user = await this.userRepository.findAllCoursesByUserId(userId)
+
+    if (!user) {
+      throw new NotFoundException('User is not register')
+    }
+
+    const { payments, ...restUserData } = user
+
+    const courses = payments
+      .map(({ paymentDetails }) => paymentDetails.map(({ course }) => course))
+      .flat()
+
+    return {
+      user: restUserData,
+      courses,
+    }
   }
 
   createUser(data: CreateUserDto) {

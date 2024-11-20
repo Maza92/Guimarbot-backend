@@ -9,7 +9,7 @@ import { UpdateUserProfileDto } from './dto/update-user-profile-dto'
 
 @Controller('/api/user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @Get()
   async getAllUser(): Promise<User[]> {
@@ -45,12 +45,20 @@ export class UserController {
   }
 
   @Put('/update-profile/:userId')
-  async updateProfile(@Body() data: UpdateUserProfileDto, @Param() params: UserParamsDto) {
+  async updateProfile(
+    @Body() data: UpdateUserProfileDto,
+    @Param() params: UserParamsDto,
+  ) {
     return await this.userService.UpdateUserProfile(Number(params.userId), data)
   }
 
-  @Get('/:userId/data')
-  async getUserData(@Param() params: UserParamsDto) {
-    return await this.userService.getUserData(Number(params.userId))
+  // @Get('/:userId/data')
+  // async getUserData(@Param() params: UserParamsDto) {
+  //   return await this.userService.getUserData(Number(params.userId))
+  // }
+
+  @Get('/:userId/courses')
+  async getAllCoursesById(@Param() params: UserParamsDto) {
+    return await this.userService.findAllCoursesByUserId(Number(params.userId))
   }
 }

@@ -12,7 +12,7 @@ export class UserRepository {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) { }
+  ) {}
 
   findAll(): Promise<User[]> {
     return this.userRepository.find()
@@ -101,8 +101,41 @@ export class UserRepository {
     })
   }
 
-  async updateUserProfile(userId: number, updateProfileData: UpdateUserProfileDto) {
-    const userToUpdate = await this.userRepository.findOne({ where: { id: userId } })
+  findAllCoursesByUserId(userId: number) {
+    return this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+      relations: {
+        payments: {
+          paymentDetails: {
+            course: true,
+          },
+        },
+      },
+      select: {
+        id: true,
+        names: true,
+        lastName: true,
+        profileImage: true,
+        password: false,
+        payments: {
+          id: true,
+          paymentDetails: {
+            id: true,
+          },
+        },
+      },
+    })
+  }
+
+  async updateUserProfile(
+    userId: number,
+    updateProfileData: UpdateUserProfileDto,
+  ) {
+    const userToUpdate = await this.userRepository.findOne({
+      where: { id: userId },
+    })
 
     if (!userToUpdate) return null
 
