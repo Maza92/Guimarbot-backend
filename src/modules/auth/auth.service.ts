@@ -33,7 +33,8 @@ export class AuthService {
     }
   }
 
-  async login(data: LoginDto): Promise<TokenResponseDto> {
+  // async login(data: LoginDto): Promise<TokenResponseDto> {
+  async login(data: LoginDto) {
     const { email, password } = data
 
     const user = await this.userService.findOneByEmail(email)
@@ -47,6 +48,10 @@ export class AuthService {
       accessToken: this.jwtService.sign(payload),
       refreshToken: this.jwtService.sign(payload, { expiresIn: '7d' }),
     }
-    return tokens
+
+    return {
+      userId: user.id,
+      ...tokens,
+    }
   }
 }

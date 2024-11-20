@@ -34,6 +34,7 @@ export class PaymentService {
 
         return {
           courseId: paymentDetail.courseId,
+          course,
           description: course.title,
         }
       }),
@@ -45,10 +46,8 @@ export class PaymentService {
       paymentDetails: updatedPaymentDetails,
     })
 
-    const { paymentDetails } = payment
-
     await this.progressRepository.createUserProgress(
-      paymentDetails
+      updatedPaymentDetails
         .map(({ course }) =>
           course.lessons.map(lesson => ({
             userId,
