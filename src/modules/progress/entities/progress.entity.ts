@@ -25,6 +25,6 @@ export class Progress {
   @Column({ default: false, nullable: false })
   completed: boolean
 
-  @Column()
+  @Column({ nullable: true })
   lastActiveDate: Date
 }

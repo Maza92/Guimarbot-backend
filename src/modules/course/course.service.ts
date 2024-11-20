@@ -53,4 +53,12 @@ export class CourseService {
 
     return this.courseRepository.findAll()
   }
+
+  async findOneById(id: number) {
+    const course = await this.courseRepository.findOneById(id)
+
+    if (!course) throw new NotFoundException('Course not found')
+
+    return course
+  }
 }

@@ -8,7 +8,7 @@ import { UpdatePasswordDto } from './dto/update-password.dto'
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly userRepository: UserRepository) { }
 
   findAll(): Promise<User[]> {
     return this.userRepository.findAll()
@@ -59,5 +59,13 @@ export class UserService {
     if (!payments) throw new NotFoundException('User not found')
 
     return payments
+  }
+
+  async UpdateUserProfile(id: number, data: UpdateUserDto) {
+    const user = await this.userRepository.updateUser(id, data)
+
+    if (!user) throw new NotFoundException('User not found.')
+
+    return user
   }
 }

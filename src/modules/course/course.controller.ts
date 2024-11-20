@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common'
 import { CourseService } from './course.service'
 import { Course } from './entities/course.entity'
 import { CreateCourseDto } from './dto/create-course.dto'
@@ -40,7 +40,7 @@ export class CourseController {
     return this.courseService.createCourse(data)
   }
 
-  @Get('find-courses')
+  @Get('/find-courses')
   async findAll(
     @Query('categoryId') categoryId?: number,
     @Query('tagIds') tagIds?: string,
@@ -53,5 +53,10 @@ export class CourseController {
       minPrice: minPrice || 0,
       maxPrice: maxPrice || 0,
     })
+  }
+
+  @Get('/:id')
+  async getCourseById(@Param('id') id: number): Promise<Course> {
+    return this.courseService.findOneById(id)
   }
 }

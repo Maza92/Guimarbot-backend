@@ -1,3 +1,4 @@
+import { PlanModule } from './../plan/plan.module'
 import { Module } from '@nestjs/common'
 import { envConfig } from '@config/env.config'
 import { typeOrmModule } from '@config/database.config'
@@ -7,9 +8,11 @@ import { AuthModule } from '../auth/auth.module'
 import { CourseModule } from '../course/course.module'
 import { RolesModule } from '../roles/role.module'
 import { PaymentModule } from '../payment/payment.module'
+import { ProgressModule } from '@modules/progress/progress.module'
 
 @Module({
   imports: [
+    PlanModule,
     envConfig(),
     typeOrmModule(),
     UserModule,
@@ -17,6 +20,7 @@ import { PaymentModule } from '../payment/payment.module'
     CourseModule,
     RolesModule,
     PaymentModule,
+    ProgressModule,
   ],
 })
 export class AppModule {}

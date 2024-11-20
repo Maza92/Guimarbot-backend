@@ -7,9 +7,15 @@ import { PaymentController } from './payment.controller'
 import { PaymentService } from './payment.service'
 import { PaymentMethodRepository } from './repositories/payment-method.repository'
 import { PaymentRepository } from './repositories/payment.repository'
+import { CourseModule } from '@modules/course/course.module'
+import { ProgressModule } from '@modules/progress/progress.module'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Payment, PaymentDetail, PaymentMethod])],
+  imports: [
+    CourseModule,
+    ProgressModule,
+    TypeOrmModule.forFeature([Payment, PaymentDetail, PaymentMethod]),
+  ],
   providers: [PaymentService, PaymentRepository, PaymentMethodRepository],
   controllers: [PaymentController],
 })
