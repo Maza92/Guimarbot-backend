@@ -50,7 +50,6 @@ export class CourseRepository {
       .leftJoinAndSelect('course.tags', 'tags')
 
     if (typeof minPrice === 'number' && categoryId) {
-      console.log(categoryId)
       queryBuilder.andWhere('category.id = :categoryId', { categoryId })
     }
 
