@@ -42,7 +42,7 @@ export class AuthService {
       throw new BadRequestException('Invalid Credentials.')
     }
 
-    const payload = { email: user.email, sub: user.id }
+    const payload = { email: user.email, userId: user.id }
 
     const tokens: TokenResponseDto = {
       accessToken: this.jwtService.sign(payload),
