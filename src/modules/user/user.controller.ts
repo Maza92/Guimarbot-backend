@@ -61,4 +61,12 @@ export class UserController {
   async getAllCoursesById(@Param() params: UserParamsDto) {
     return await this.userService.findAllCoursesByUserId(Number(params.userId))
   }
+
+  @Get('/:userId/courses/:courseId/enrollment')
+  async checkEnrollment(
+    @Param('userId') userId: number,
+    @Param('courseId') courseId: number,
+  ) {
+    return await this.userService.checkUserEnrollment(userId, courseId)
+  }
 }

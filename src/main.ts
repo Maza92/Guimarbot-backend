@@ -6,16 +6,15 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
-
   const config = new DocumentBuilder()
     .setTitle('Payment Service - Guimarbot')
     .setDescription('Payment Service API Documentation')
     .setVersion('1.0')
     .addTag('payment')
-    .build();
+    .build()
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  const document = SwaggerModule.createDocument(app, config)
+  SwaggerModule.setup('api', app, document)
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -28,6 +27,6 @@ async function bootstrap() {
     credentials: true,
   })
 
-  await app.listen(5007)
+  await app.listen(process.env.PORT)
 }
 bootstrap()

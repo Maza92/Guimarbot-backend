@@ -64,6 +64,21 @@ export class UserRepository {
     return this.userRepository.save(userToUpdate)
   }
 
+  async updateUserProfile(
+    userId: number,
+    updateProfileData: UpdateUserProfileDto,
+  ) {
+    const userToUpdate = await this.userRepository.findOne({
+      where: { id: userId },
+    })
+
+    if (!userToUpdate) return null
+
+    this.userRepository.merge(userToUpdate, updateProfileData)
+
+    return this.userRepository.save(userToUpdate)
+  }
+
   async findAllPaymentByUser(userId: number) {
     return this.userRepository.findOne({
       where: {
@@ -129,18 +144,18 @@ export class UserRepository {
     })
   }
 
-  async updateUserProfile(
-    userId: number,
-    updateProfileData: UpdateUserProfileDto,
-  ) {
-    const userToUpdate = await this.userRepository.findOne({
-      where: { id: userId },
+  findEnrollmentInCourse(userId: number, courseId: number) {
+    return this.userRepository.findOne({
+      where: {
+        id: userId,
+        payments: {
+          paymentDetails: {
+            course: {
+              id: courseId,
+            },
+          },
+        },
+      },
     })
-
-    if (!userToUpdate) return null
-
-    this.userRepository.merge(userToUpdate, updateProfileData)
-
-    return this.userRepository.save(userToUpdate)
   }
 }

@@ -87,4 +87,16 @@ export class UserService {
 
     return user
   }
+
+  async checkUserEnrollment(userId: number, courseId: number) {
+    const user = await this.userRepository.findEnrollmentInCourse(
+      userId,
+      courseId,
+    )
+
+    return {
+      userId,
+      isEnrolled: Boolean(user),
+    }
+  }
 }
