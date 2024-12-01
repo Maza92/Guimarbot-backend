@@ -14,6 +14,7 @@ import { Tag } from './tag.entity'
 import { Category } from './category.entity'
 import { Career } from './career.entity'
 import { Level } from '../types'
+import { Roadmap } from '@modules/roadmap'
 
 @Entity()
 export class Course {
@@ -61,6 +62,9 @@ export class Course {
 
   @ManyToMany(() => Tag, tag => tag.courses)
   tags: Tag[]
+
+  @ManyToOne(() => Roadmap, roadmap => roadmap.courses)
+  roadmap: Relation<Roadmap>
 
   @ManyToOne(() => Category, category => category.courses)
   category: Category

@@ -27,6 +27,7 @@ async function bootstrap() {
     credentials: true,
   })
 
+  console.log(`\n\n Server running on http://localhost:${process.env.PORT}\n\n`)
   await app.listen(process.env.PORT)
 }
 bootstrap()

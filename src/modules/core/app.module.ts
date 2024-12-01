@@ -1,3 +1,4 @@
+import { CommonModule } from './../common/common.module'
 import { PlanModule } from './../plan/plan.module'
 import { Module } from '@nestjs/common'
 import { envConfig } from '@config/env.config'
@@ -9,9 +10,11 @@ import { CourseModule } from '../course/course.module'
 import { RolesModule } from '../roles/role.module'
 import { PaymentModule } from '../payment/payment.module'
 import { ProgressModule } from '@modules/progress/progress.module'
+import { RoadmapModule } from '@modules/roadmap/roadmap.module'
 
 @Module({
   imports: [
+    CommonModule,
     PlanModule,
     envConfig(),
     typeOrmModule(),
@@ -21,6 +24,7 @@ import { ProgressModule } from '@modules/progress/progress.module'
     RolesModule,
     PaymentModule,
     ProgressModule,
+    RoadmapModule,
   ],
 })
 export class AppModule {}

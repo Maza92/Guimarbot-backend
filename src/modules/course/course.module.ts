@@ -21,6 +21,6 @@ import { TagRepository } from './repositories/tag.repository'
     TagRepository,
   ],
   controllers: [CourseController],
-  exports: [CourseService],
+  exports: [CourseService, CategoryRepository, CourseRepository],
 })
 export class CourseModule {}

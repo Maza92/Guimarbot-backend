@@ -13,4 +13,8 @@ export class CategoryRepository {
   findAll() {
     return this.categoryRepository.find()
   }
+
+  findOneById(id: number) {
+    return this.categoryRepository.findOne({ where: { id } })
+  }
 }
