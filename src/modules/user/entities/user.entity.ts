@@ -12,6 +12,7 @@ import {
 import { Role } from '@modules/roles'
 import { Progress } from '@modules/progress'
 import { Payment } from '@modules/payment'
+import { Roadmap } from '@modules/roadmap'
 
 @Entity()
 export class User {
@@ -48,6 +49,9 @@ export class User {
 
   @OneToMany(() => Payment, payment => payment.user, { cascade: true })
   payments: Relation<Payment[]>
+
+  @OneToMany(() => Roadmap, roadmap => roadmap.user)
+  roadmaps: Relation<Roadmap[]>
 
   @CreateDateColumn()
   createdAt: Date

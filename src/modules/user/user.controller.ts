@@ -6,6 +6,7 @@ import { UpdateUserDto } from './dto/update-user.dto'
 import { UserParamsDto } from './dto/user-params.dto'
 import { UpdatePasswordDto } from './dto/update-password.dto'
 import { UpdateUserProfileDto } from './dto/update-user-profile-dto'
+import { ApiBody } from '@nestjs/swagger'
 
 @Controller('/api/user')
 export class UserController {
@@ -20,12 +21,13 @@ export class UserController {
   async getAllPaymentByUser(@Param() params: UserParamsDto) {
     return await this.userService.findAllPaymentByUser(Number(params.userId))
   }
-
+  @ApiBody({ type: CreateUserDto })
   @Post()
   async createUser(@Body() data: CreateUserDto): Promise<User> {
     return await this.userService.createUser(data)
   }
 
+  @ApiBody({ type: UpdateUserDto })
   @Put('/:userId')
   async updateUser(
     @Param() params: UserParamsDto,
@@ -44,6 +46,7 @@ export class UserController {
     return await this.userService.updateUserPassword(data)
   }
 
+  @ApiBody({ type: UpdateUserProfileDto })
   @Put('/update-profile/:userId')
   async updateProfile(
     @Body() data: UpdateUserProfileDto,

@@ -22,7 +22,7 @@ export class CreatePaymentDto {
   @Type(() => Number)
   paymentMethodId: number
 
-  @ApiProperty({ type: [CreatePaymentDetailDto] })
+  @ApiProperty({ type: [CreatePaymentDetailDto], isArray: true })
   @IsArray()
   @ArrayMinSize(1)
   @ValidateNested({ each: true })
