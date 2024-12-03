@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common'
+import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger'
 import { UserService } from './user.service'
 import { User } from './entities/user.entity'
 import { CreateUserDto } from './dto/create-user.dto'
@@ -6,7 +7,6 @@ import { UpdateUserDto } from './dto/update-user.dto'
 import { UserParamsDto } from './dto/user-params.dto'
 import { UpdatePasswordDto } from './dto/update-password.dto'
 import { UpdateUserProfileDto } from './dto/update-user-profile-dto'
-import { ApiBody } from '@nestjs/swagger'
 
 @Controller('/api/user')
 export class UserController {
@@ -21,6 +21,7 @@ export class UserController {
   async getAllPaymentByUser(@Param() params: UserParamsDto) {
     return await this.userService.findAllPaymentByUser(Number(params.userId))
   }
+
   @ApiBody({ type: CreateUserDto })
   @Post()
   async createUser(@Body() data: CreateUserDto): Promise<User> {
@@ -71,5 +72,21 @@ export class UserController {
     @Param('courseId') courseId: number,
   ) {
     return await this.userService.checkUserEnrollment(userId, courseId)
+  }
+
+  @ApiOperation({
+    summary: 'Get roadmaps for user',
+  })
+  @ApiResponse({
+    status: 200,
+    description: `Return all user's roadmaps`,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Roadmaps not found',
+  })
+  @Get('/:userId/roadmaps')
+  async getRoadmapsByUserId(@Param('userId') userId: number) {
+    return await this.userService.findAllRoadmapsByUserId(userId)
   }
 }

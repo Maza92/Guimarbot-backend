@@ -1,7 +1,3 @@
-/*
-https://docs.nestjs.com/providers#services
-*/
-
 import { Injectable } from '@nestjs/common'
 import { RoadmapRepository } from './repositories/roadmap.repository'
 import { CreateUserRoadmapDto } from './dto/create-user-roadmap'
@@ -23,10 +19,6 @@ export class RoadmapService {
 
   findAll() {
     return this.roadmapRepository.findAll()
-  }
-
-  findAllByUserId(userId: number) {
-    return this.roadmapRepository.findAllByUserId(userId)
   }
 
   findAllDefaultRoadmaps() {

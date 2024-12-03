@@ -99,4 +99,19 @@ export class UserService {
       isEnrolled: Boolean(user),
     }
   }
+
+  async findAllRoadmapsByUserId(userId: number) {
+    const user = await this.userRepository.findRoadmapsByUserId(userId)
+
+    if (!user) {
+      throw new NotFoundException('User is not register')
+    }
+
+    const { roadmaps, ...restUserData } = user
+
+    return {
+      user: restUserData,
+      roadmaps,
+    }
+  }
 }

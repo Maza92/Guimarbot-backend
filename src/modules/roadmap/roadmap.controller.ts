@@ -1,7 +1,3 @@
-/*
-https://docs.nestjs.com/controllers#controllers
-*/
-
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 import { RoadmapService } from './roadmap.service'
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
@@ -20,14 +16,6 @@ export class RoadmapController {
   @ApiResponse({ status: 404, description: 'Roadmaps not found' })
   async getRoadmaps() {
     return await this.roadmapService.findAll()
-  }
-
-  @Get('/user/:userId')
-  @ApiOperation({ summary: 'Get roadmaps for user' })
-  @ApiResponse({ status: 200, description: 'Return roadmaps for user' })
-  @ApiResponse({ status: 404, description: 'Roadmaps not found' })
-  async getRoadmapsByUserId(@Param('userId') userId: number) {
-    return await this.roadmapService.findAllByUserId(userId)
   }
 
   @Get('/default')

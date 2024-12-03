@@ -1,15 +1,13 @@
-/*
-https://docs.nestjs.com/providers#services
-*/
-
 import { Injectable } from '@nestjs/common'
+import { ClassType } from 'src/shared/types'
 
 @Injectable()
 export class ResponseService {
   typeName: string
+
   constructor() {}
 
-  initType(type: new (...args: any[]) => any) {
+  initType<T>(type: ClassType<T>) {
     this.typeName = type.name
   }
 

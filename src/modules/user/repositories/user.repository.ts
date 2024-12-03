@@ -162,4 +162,18 @@ export class UserRepository {
       },
     })
   }
+
+  findRoadmapsByUserId(userId: number) {
+    return this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+      relations: {
+        roadmaps: {
+          category: true,
+          courses: true,
+        },
+      },
+    })
+  }
 }

@@ -7,9 +7,10 @@ import { ResponseService } from '@modules/common/response.service'
 @Injectable()
 export class RoadmapRepository {
   constructor(
+    private readonly responseService: ResponseService,
+
     @InjectRepository(Roadmap)
     private readonly roadmapRepository: Repository<Roadmap>,
-    private readonly responseService: ResponseService,
   ) {
     this.responseService.initType(Roadmap)
   }
@@ -19,21 +20,6 @@ export class RoadmapRepository {
       relations: {
         category: true,
         courses: true,
-      },
-    })
-  }
-
-  findAllByUserId(userId: number): Promise<Roadmap[]> {
-    return this.roadmapRepository.find({
-      relations: {
-        category: true,
-        courses: true,
-      },
-      where: {
-        isDefault: false,
-        user: {
-          id: userId,
-        },
       },
     })
   }
@@ -83,6 +69,7 @@ export class RoadmapRepository {
       if (!savedRoadmap) {
         return this.responseService.createResponseError()
       }
+
       return this.responseService.createResponse()
     } catch (error) {
       throw new Error(`Error saving roadmap: ${error.message}`)
@@ -101,6 +88,7 @@ export class RoadmapRepository {
     if (!this.roadmapRepository.delete(id)) {
       return this.responseService.deleteResponseError()
     }
+
     return this.responseService.deleteResponse()
   }
 }
