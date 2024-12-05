@@ -53,7 +53,7 @@ export class UserController {
     @Body() data: UpdateUserProfileDto,
     @Param() params: UserParamsDto,
   ) {
-    return await this.userService.UpdateUserProfile(Number(params.userId), data)
+    return await this.userService.updateUserProfile(Number(params.userId), data)
   }
 
   // @Get('/:userId/data')

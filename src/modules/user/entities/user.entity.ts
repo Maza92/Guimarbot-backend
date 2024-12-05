@@ -25,8 +25,26 @@ export class User {
   @Column({ length: 50 })
   lastName: string
 
+  @Column({ length: 100, nullable: true })
+  username: string
+
   @Column({ length: 80, nullable: false, unique: true })
   email: string
+
+  @Column({ length: 25, nullable: true })
+  phone: string
+
+  @Column({
+    // type: 'enum',
+    // enum: ['masculino', 'femenino', null],
+    // nullable: false,
+    length: 20,
+    nullable: true,
+  })
+  gender: string
+
+  @Column({ type: 'text', nullable: true })
+  bio: string
 
   @Column({ nullable: true })
   password?: string

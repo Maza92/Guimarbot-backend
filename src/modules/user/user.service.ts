@@ -5,6 +5,7 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { UserRepository } from './repositories/user.repository'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UpdatePasswordDto } from './dto/update-password.dto'
+import { UpdateUserProfileDto } from './dto/update-user-profile-dto'
 
 @Injectable()
 export class UserService {
@@ -80,8 +81,8 @@ export class UserService {
     return payments
   }
 
-  async UpdateUserProfile(id: number, data: UpdateUserDto) {
-    const user = await this.userRepository.updateUser(id, data)
+  async updateUserProfile(userId: number, data: UpdateUserProfileDto) {
+    const user = await this.userRepository.updateUser(userId, data)
 
     if (!user) throw new NotFoundException('User not found.')
 
