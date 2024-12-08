@@ -16,35 +16,44 @@ import {
 import { Type } from 'class-transformer'
 import { CreateLessonDto } from './create-lesson.dto'
 import { Level } from '../types'
+import { ApiProperty } from '@nestjs/swagger'
 
 export class CreateCourseDto {
+  @ApiProperty()
   @IsString()
   @Length(10, 100)
   title: string
 
+  @ApiProperty()
   @IsString()
   @Length(20, 500)
   description: string
 
+  @ApiProperty()
   @IsNumber()
   @Min(0)
   @Type(() => Number)
   price: number
 
+  @ApiProperty()
   @IsString()
   @IsUrl()
   videoPreviewUrl: string
 
+  @ApiProperty()
   @IsString()
   @Length(0, 50)
   teacherName: string
 
+  @ApiProperty()
   @IsPositive()
   durationHours: number
 
+  @ApiProperty()
   @IsPositive()
   totalLessons: number
 
+  @ApiProperty({ enum: Level })
   @IsNotEmpty()
   @Matches(
     `^${Object.values(Level)
@@ -54,16 +63,19 @@ export class CreateCourseDto {
   )
   level: Level
 
+  @ApiProperty()
   @IsNumber()
   @Min(0)
   @Max(5)
   @Type(() => Number)
   averageRating: number
 
+  @ApiProperty()
   @IsOptional()
   @IsBoolean()
   isPublished: boolean
 
+  @ApiProperty({ type: CreateLessonDto })
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })

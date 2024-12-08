@@ -2,9 +2,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
+  Relation,
   UpdateDateColumn,
 } from 'typeorm'
+import { UserPlan } from './user-plan.entity'
+import { Referral } from './referral.entity'
 
 @Entity()
 export class Plan {
@@ -31,4 +35,10 @@ export class Plan {
 
   @UpdateDateColumn()
   updatedAt: Date
+
+  @OneToMany(() => UserPlan, userPlan => userPlan.plan)
+  userPlans: Relation<UserPlan[]>
+
+  @OneToMany(() => Referral, referral => referral.plan)
+  referrals: Relation<Referral[]>
 }

@@ -19,4 +19,8 @@ export class PlanRepository {
   async findAll(): Promise<Plan[]> {
     return this.planRepository.find()
   }
+
+  async findOneById(id: number): Promise<Plan> {
+    return this.planRepository.findOne({ where: { id } })
+  }
 }

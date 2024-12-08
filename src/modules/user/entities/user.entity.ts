@@ -13,6 +13,8 @@ import { Role } from '@modules/roles'
 import { Progress } from '@modules/progress'
 import { Payment } from '@modules/payment'
 import { Roadmap } from '@modules/roadmap'
+import { UserPlan } from '@modules/plan/entities/user-plan.entity'
+import { Referral } from '@modules/plan/entities/referral.entity'
 
 @Entity()
 export class User {
@@ -55,6 +57,9 @@ export class User {
   @Column({ nullable: false, default: true })
   isActive: boolean
 
+  @Column({ type: 'datetime', nullable: true })
+  birthDate: Date
+
   @ManyToMany(() => Role, role => role.users, {
     nullable: true,
     cascade: ['recover'],
@@ -70,6 +75,12 @@ export class User {
 
   @OneToMany(() => Roadmap, roadmap => roadmap.user)
   roadmaps: Relation<Roadmap[]>
+
+  @OneToMany(() => UserPlan, userPlan => userPlan.user)
+  userPlans: Relation<UserPlan[]>
+
+  @OneToMany(() => Referral, referral => referral.referrer)
+  referrals: Relation<Referral[]>
 
   @CreateDateColumn()
   createdAt: Date
