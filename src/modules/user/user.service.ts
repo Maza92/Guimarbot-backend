@@ -115,4 +115,8 @@ export class UserService {
       roadmaps,
     }
   }
+
+  findUserById(id: number) {
+    return this.userRepository.findOneById(id)
+  }
 }

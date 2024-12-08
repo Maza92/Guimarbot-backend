@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common'
-import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger'
 import { UserService } from './user.service'
 import { User } from './entities/user.entity'
 import { CreateUserDto } from './dto/create-user.dto'
@@ -15,6 +15,17 @@ export class UserController {
   @Get()
   async getAllUser(): Promise<User[]> {
     return await this.userService.findAll()
+  }
+
+  @ApiOperation({ summary: 'Get user by id' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return user by id',
+  })
+  @ApiParam({ name: 'userId', type: Number })
+  @Get('/:userId')
+  async getUserById(@Param() params: UserParamsDto) {
+    return await this.userService.findUserById(Number(params.userId))
   }
 
   @Get('/:userId/payments')
