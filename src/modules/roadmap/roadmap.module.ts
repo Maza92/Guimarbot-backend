@@ -23,5 +23,6 @@ import { UserModule } from '@modules/user/user.module'
   ],
   controllers: [RoadmapController],
   providers: [RoadmapService, RoadmapRepository, ResponseService],
+  exports: [RoadmapRepository],
 })
 export class RoadmapModule {}

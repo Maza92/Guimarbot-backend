@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { forwardRef, Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { CourseController } from './course.controller'
 import { CourseService } from './course.service'
@@ -10,14 +10,20 @@ import { CareerRepository } from './repositories/career.entity'
 import { CategoryRepository } from './repositories/category.repository'
 import { CourseRepository } from './repositories/course.repository'
 import { TagRepository } from './repositories/tag.repository'
+import { ResponseService } from '@modules/common'
+import { RoadmapModule } from '@modules/roadmap/roadmap.module'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Course, Category, Tag, Career])],
+  imports: [
+    TypeOrmModule.forFeature([Course, Category, Tag, Career]),
+    forwardRef(() => RoadmapModule),
+  ],
   providers: [
     CourseService,
     CourseRepository,
     CareerRepository,
     CategoryRepository,
+    ResponseService,
     TagRepository,
   ],
   controllers: [CourseController],

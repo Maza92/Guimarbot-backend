@@ -64,6 +64,10 @@ export class CreateCourseDto {
   level: Level
 
   @ApiProperty()
+  @IsNotEmpty()
+  roadmapId: number
+
+  @ApiProperty()
   @IsNumber()
   @Min(0)
   @Max(5)
@@ -75,7 +79,7 @@ export class CreateCourseDto {
   @IsBoolean()
   isPublished: boolean
 
-  @ApiProperty({ type: CreateLessonDto })
+  @ApiProperty({ type: CreateLessonDto, isArray: true })
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })

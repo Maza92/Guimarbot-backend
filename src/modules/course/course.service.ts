@@ -6,6 +6,7 @@ import { CourseFilter } from './interfaces/course-filter'
 import { CategoryRepository } from './repositories/category.repository'
 import { TagRepository } from './repositories/tag.repository'
 import { CareerRepository } from './repositories/career.entity'
+import { RoadmapRepository } from '@modules/roadmap/repositories/roadmap.repository'
 
 @Injectable()
 export class CourseService {
@@ -14,6 +15,7 @@ export class CourseService {
     private readonly categoryRepository: CategoryRepository,
     private readonly tagRepository: TagRepository,
     private readonly careerRepository: CareerRepository,
+    private readonly roadmapRepository: RoadmapRepository,
   ) {}
 
   findAll({ limit }: { limit: number }): Promise<Course[]> {
@@ -42,7 +44,7 @@ export class CourseService {
     return course
   }
 
-  createCourse(data: CreateCourseDto) {
+  async createCourse(data: CreateCourseDto) {
     return this.courseRepository.createCourse(data)
   }
 

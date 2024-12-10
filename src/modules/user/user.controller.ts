@@ -13,6 +13,15 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
+  @ApiOperation({ summary: 'Get all users' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return all users for administrative',
+  })
+  @ApiResponse({ 
+    status: 404,
+    description: 'Users not found',
+  })
   async getAllUser(): Promise<User[]> {
     return await this.userService.findAll()
   }
@@ -33,14 +42,34 @@ export class UserController {
     return await this.userService.findAllPaymentByUser(Number(params.userId))
   }
 
-  @ApiBody({ type: CreateUserDto })
+
   @Post()
+  @ApiBody({ type: CreateUserDto })
+  @ApiOperation({ summary: 'Create a user' })
+  @ApiResponse({
+    status: 201,
+    description: 'The user has been successfully created',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request'
+  })
   async createUser(@Body() data: CreateUserDto): Promise<User> {
     return await this.userService.createUser(data)
   }
 
-  @ApiBody({ type: UpdateUserDto })
+
   @Put('/:userId')
+  @ApiBody({ type: UpdateUserDto })
+  @ApiOperation({ summary: 'Update a user' })
+  @ApiResponse({
+    status: 200,
+    description: 'The user has been successfully updated',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request',
+  })
   async updateUser(
     @Param() params: UserParamsDto,
     @Body() data: UpdateUserDto,

@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger'
 import {
   Column,
   CreateDateColumn,
@@ -9,11 +10,14 @@ import {
 @Entity()
 export class PaymentMethod {
   @PrimaryGeneratedColumn('increment')
+  @ApiProperty()
   id: number
 
+  @ApiProperty()
   @Column({ length: 50 })
   type: string
 
+  @ApiProperty()
   @Column({ default: true })
   status: true
 
