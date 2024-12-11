@@ -32,4 +32,10 @@ export class CareerRepository {
       },
     })
   }
+
+  findOneById(id: number): Promise<Career> {
+    return this.careerRepository.findOne({
+      where: { id },
+    })
+  }
 }

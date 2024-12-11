@@ -87,20 +87,17 @@ export class CreateCourseDto {
   @Type(() => IdDto)
   tags: IdDto[]
 
-  @ApiProperty()
+  @ApiProperty({ type: IdDto })
   @IsOptional()
-  @IsNumber()
-  @IsPositive()
+  @Type(() => IdDto)
   roadmap: IdDto
 
-  @ApiProperty()
-  @IsNumber()
-  @IsPositive()
+  @ApiProperty({ type: IdDto })
+  @Type(() => IdDto)
   category: IdDto
 
-  @ApiProperty()
-  @IsNumber()
-  @IsPositive()
+  @ApiProperty({ type: IdDto })
+  @Type(() => IdDto)
   carrer: IdDto
 
   @ApiProperty({ type: CreateLessonDto, isArray: true })
@@ -108,5 +105,5 @@ export class CreateCourseDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CreateLessonDto)
-  lesssons: CreateLessonDto[]
+  lessons: CreateLessonDto[]
 }

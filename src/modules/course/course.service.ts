@@ -7,6 +7,7 @@ import { CategoryRepository } from './repositories/category.repository'
 import { TagRepository } from './repositories/tag.repository'
 import { CareerRepository } from './repositories/career.entity'
 import { RoadmapRepository } from '@modules/roadmap/repositories/roadmap.repository'
+import { map } from 'rxjs'
 
 @Injectable()
 export class CourseService {

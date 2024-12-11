@@ -13,4 +13,10 @@ export class TagRepository {
   findAll() {
     return this.tagRepository.find()
   }
+
+  findOneById(id: number): Promise<Tag> {
+    return this.tagRepository.findOne({
+      where: { id },
+    })
+  }
 }
