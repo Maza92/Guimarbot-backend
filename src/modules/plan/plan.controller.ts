@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common'
-import { PlanService } from './plan.service'
-import { CreatePlanDto } from './dto/create-plan-dto'
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { CreatePlanDto } from './dto/create-plan-dto'
 import { CreateUserPlanDto } from './dto/create-user-plan-dto'
 import { CreateReferralDto } from './dto/create-referral-dto'
 import { ReferralCountDto } from './dto/referral-response-dto'
+import { UpdatePlanDto } from './dto/update-plan-dto'
+import { PlanService } from './plan.service'
 
 @Controller('/api/plan')
 export class PlanController {
@@ -93,5 +94,18 @@ export class PlanController {
   @ApiResponse({ status: 200, description: 'Referral canceled' })
   async cancelReferral(@Param('userId') userId: number) {
     return await this.planService.deleteReferralByUserId(userId)
+  }
+
+  @ApiOperation({ summary: 'Update a plan' })
+  @ApiResponse({
+    status: 200,
+    description: 'Plan updated successfully',
+  })
+  @Put('/:planId')
+  async updatePlan(
+    @Param('planId') planId: number,
+    @Body() data: UpdatePlanDto,
+  ) {
+    return await this.planService.updatePlan(planId, data)
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { PlanRepository } from './repositories/plan.repository'
 import { CreatePlanDto } from './dto/create-plan-dto'
 import { CreateUserPlanDto } from './dto/create-user-plan-dto'
@@ -10,6 +10,7 @@ import { User } from '@modules/user'
 import { ReferralRepository } from './repositories/referral.repository'
 import { CreateReferralDto } from './dto/create-referral-dto'
 import { Referral } from './entities/referral.entity'
+import { UpdatePlanDto } from './dto/update-plan-dto'
 
 @Injectable()
 export class PlanService {
@@ -153,5 +154,15 @@ export class PlanService {
     } catch (error) {
       throw new Error(error)
     }
+  }
+
+  async updatePlan(planId: number, data: UpdatePlanDto) {
+    const plan = await this.planRepository.update(planId, data)
+
+    if (!plan) {
+      throw new NotFoundException()
+    }
+
+    return plan
   }
 }
