@@ -64,6 +64,11 @@ export class CourseRepository {
     return this.courseRepository.save(newCourse)
   }
 
+  create(data: Course): Promise<Course> {
+    const newCourse = this.courseRepository.create(data)
+    return this.courseRepository.save(newCourse)
+  }
+
   async findAllWithFilters(options: CourseFilter): Promise<Course[]> {
     const { categoryId, tagIds, minPrice, maxPrice } = options
 
