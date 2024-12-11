@@ -18,6 +18,12 @@ import { CreateLessonDto } from './create-lesson.dto'
 import { Level } from '../types'
 import { ApiProperty } from '@nestjs/swagger'
 
+class IdDto {
+  @ApiProperty()
+  @IsNumber()
+  @IsPositive()
+  id: number
+}
 export class CreateCourseDto {
   @ApiProperty()
   @IsString()
@@ -64,10 +70,6 @@ export class CreateCourseDto {
   level: Level
 
   @ApiProperty()
-  @IsNotEmpty()
-  roadmapId: number
-
-  @ApiProperty()
   @IsNumber()
   @Min(0)
   @Max(5)
@@ -78,6 +80,28 @@ export class CreateCourseDto {
   @IsOptional()
   @IsBoolean()
   isPublished: boolean
+
+  @ApiProperty({ type: IdDto, isArray: true })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => IdDto)
+  tags: IdDto[]
+
+  @ApiProperty()
+  @IsOptional()
+  @IsNumber()
+  @IsPositive()
+  roadmap: IdDto
+
+  @ApiProperty()
+  @IsNumber()
+  @IsPositive()
+  category: IdDto
+
+  @ApiProperty()
+  @IsNumber()
+  @IsPositive()
+  carrer: IdDto
 
   @ApiProperty({ type: CreateLessonDto, isArray: true })
   @IsOptional()
