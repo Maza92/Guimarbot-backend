@@ -25,7 +25,7 @@ export class Lesson {
   durationMinutes: number
 
   @Column({ length: 100, nullable: true })
-  videolURL: string
+  videoURL: string
 
   @ManyToOne(() => Course, course => course.lessons)
   @JoinColumn()
