@@ -82,11 +82,16 @@ export class UserService {
   }
 
   async updateUserProfile(userId: number, data: UpdateUserProfileDto) {
-    const user = await this.userRepository.updateUser(userId, data)
+    try {
+      const password = data.password
+      data.password = await bcrypt.hash(password, 4)
 
-    if (!user) throw new NotFoundException('User not found.')
+      const user = await this.userRepository.updateUser(userId, data)
 
-    return user
+      if (!user) throw new NotFoundException('User not found.')
+    } catch (error) {
+      return error
+    }
   }
 
   async checkUserEnrollment(userId: number, courseId: number) {

@@ -7,7 +7,8 @@ import { CategoryRepository } from './repositories/category.repository'
 import { TagRepository } from './repositories/tag.repository'
 import { CareerRepository } from './repositories/career.entity'
 import { RoadmapRepository } from '@modules/roadmap/repositories/roadmap.repository'
-import { map } from 'rxjs'
+import { CreateCategoryDto } from './dto/create-category-dto'
+import { CreateTagDto } from './dto/create-tag-dto'
 
 @Injectable()
 export class CourseService {
@@ -45,10 +46,6 @@ export class CourseService {
     return course
   }
 
-  async findAllByTitle(title: string): Promise<Course[]> {
-    return this.courseRepository.findAllByTitle(title)
-  }
-
   async createCourse(data: CreateCourseDto) {
     return this.courseRepository.createCourse(data)
   }
@@ -67,5 +64,13 @@ export class CourseService {
     if (!course) throw new NotFoundException('Course not found')
 
     return course
+  }
+
+  async createCategory(data: CreateCategoryDto) {
+    return this.categoryRepository.createCategory(data)
+  }
+
+  async createTag(data: CreateTagDto) {
+    return this.tagRepository.createTag(data)
   }
 }

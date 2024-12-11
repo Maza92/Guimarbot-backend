@@ -38,4 +38,8 @@ export class CareerRepository {
       where: { id },
     })
   }
+
+  createCareer(data: Career) {
+    return this.careerRepository.save(data)
+  }
 }

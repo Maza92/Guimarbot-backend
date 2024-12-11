@@ -12,6 +12,7 @@ import { CourseRepository } from './repositories/course.repository'
 import { TagRepository } from './repositories/tag.repository'
 import { ResponseService } from '@modules/common'
 import { RoadmapModule } from '@modules/roadmap/roadmap.module'
+import { ExtraController } from './extra.controller'
 
 @Module({
   imports: [
@@ -26,7 +27,7 @@ import { RoadmapModule } from '@modules/roadmap/roadmap.module'
     ResponseService,
     TagRepository,
   ],
-  controllers: [CourseController],
+  controllers: [CourseController, ExtraController],
   exports: [CourseService, CategoryRepository, CourseRepository],
 })
 export class CourseModule {}
