@@ -36,6 +36,18 @@ export class CourseRepository {
     })
   }
 
+  findAllByTitle(title: string): Promise<Course[]> {
+    return this.courseRepository.find({
+      relations: {
+        tags: true,
+        category: true,
+      },
+      where: {
+        title: ILike(`%${title}%`),
+      },
+    })
+  }
+
   findOneById(id: number): Promise<Course> {
     return this.courseRepository.findOne({
       relations: {

@@ -44,6 +44,10 @@ export class CourseService {
     return course
   }
 
+  async findAllByTitle(title: string): Promise<Course[]> {
+    return this.courseRepository.findAllByTitle(title)
+  }
+
   async createCourse(data: CreateCourseDto) {
     return this.courseRepository.createCourse(data)
   }

@@ -66,6 +66,22 @@ export class CourseController {
     return this.courseService.findOneByTitle(title)
   }
 
+  @ApiOperation({ summary: 'Get course by title' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return course by title',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Course not found',
+  })
+  @Get('/find-all-by-title')
+  async getCoursesByName(@Query() query: TitleParam) {
+    const { title } = query
+
+    return this.courseService.findAllByTitle(title)
+  }
+
   @Post()
   @ApiOperation({ summary: 'Create a course' })
   @ApiResponse({
