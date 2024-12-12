@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common'
 import { CourseService } from './course.service'
 import { Course } from './entities/course.entity'
 import { CreateCourseDto } from './dto/create-course.dto'
 import { TitleParam } from './interfaces/course-filter-title'
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { UpdateCourseDto } from './dto/update-course.dto'
 
 @Controller('/api/course')
 export class CourseController {
@@ -124,5 +125,22 @@ export class CourseController {
   @ApiResponse({ status: 404, description: 'Course not found' })
   async getCourseById(@Param('id') id: number): Promise<Course> {
     return this.courseService.findOneById(id)
+  }
+
+  @ApiOperation({ summary: 'Update course' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return course updated',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Course not found',
+  })
+  @Put('/:courseId')
+  async updateCourse(
+    @Param('courseId') courseId: number,
+    @Body() data: UpdateCourseDto,
+  ) {
+    return this.courseService.updateCourse(courseId, data)
   }
 }

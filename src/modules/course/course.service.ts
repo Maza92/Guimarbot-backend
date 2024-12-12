@@ -9,6 +9,7 @@ import { CareerRepository } from './repositories/career.entity'
 import { RoadmapRepository } from '@modules/roadmap/repositories/roadmap.repository'
 import { CreateCategoryDto } from './dto/create-category-dto'
 import { CreateTagDto } from './dto/create-tag-dto'
+import { UpdateCourseDto } from './dto/update-course.dto'
 
 @Injectable()
 export class CourseService {
@@ -76,5 +77,15 @@ export class CourseService {
 
   async createTag(data: CreateTagDto) {
     return this.tagRepository.createTag(data)
+  }
+
+  async updateCourse(courseId: number, data: UpdateCourseDto) {
+    const course = await this.courseRepository.updateCourse(courseId, data)
+
+    if (!course) {
+      throw new NotFoundException('Course not found')
+    }
+
+    return course
   }
 }

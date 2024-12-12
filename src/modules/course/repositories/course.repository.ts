@@ -4,6 +4,7 @@ import { Course } from '../entities/course.entity'
 import { CreateCourseDto } from '../dto/create-course.dto'
 import { ILike, Repository } from 'typeorm'
 import { CourseFilter } from '../interfaces/course-filter'
+import { UpdateCourseDto } from '../dto/update-course.dto'
 
 @Injectable()
 export class CourseRepository {
@@ -62,6 +63,20 @@ export class CourseRepository {
   createCourse(data: CreateCourseDto): Promise<Course> {
     const newCourse = this.courseRepository.create(data)
     return this.courseRepository.save(newCourse)
+  }
+
+  async updateCourse(courseId: number, data: UpdateCourseDto): Promise<Course> {
+    const courseToUpdate = await this.courseRepository.findOne({
+      where: {
+        id: courseId,
+      },
+    })
+
+    if (!courseToUpdate) return null
+
+    this.courseRepository.merge(courseToUpdate, data)
+
+    return this.courseRepository.save(courseToUpdate)
   }
 
   async findAllWithFilters(options: CourseFilter): Promise<Course[]> {
