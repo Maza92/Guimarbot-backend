@@ -1,16 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { PlanRepository } from './repositories/plan.repository'
-import { CreatePlanDto } from './dto/create-plan-dto'
-import { CreateUserPlanDto } from './dto/create-user-plan-dto'
-import { UserPlan } from './entities/user-plan.entity'
+import { sendEmail } from '@lib/send-email'
 import { UserRepository } from '@modules/user/repositories/user.repository'
-import { PlanStatus, ReferralStatus } from './types'
-import { UserPlanRepository } from './repositories/user-plan.repository'
 import { User } from '@modules/user'
-import { ReferralRepository } from './repositories/referral.repository'
+import { CreatePlanDto } from './dto/create-plan-dto'
 import { CreateReferralDto } from './dto/create-referral-dto'
-import { Referral } from './entities/referral.entity'
+import { CreateUserPlanDto } from './dto/create-user-plan-dto'
 import { UpdatePlanDto } from './dto/update-plan-dto'
+import { Referral } from './entities/referral.entity'
+import { UserPlan } from './entities/user-plan.entity'
+import { PlanRepository } from './repositories/plan.repository'
+import { ReferralRepository } from './repositories/referral.repository'
+import { UserPlanRepository } from './repositories/user-plan.repository'
+import { PlanStatus, ReferralStatus } from './types'
 
 @Injectable()
 export class PlanService {
@@ -65,7 +66,7 @@ export class PlanService {
   async createReferral(data: CreateReferralDto) {
     try {
       /*
-       * Future implementation to send email to user referral
+       *  TODO: Future implementation to send email to user referral
        */
 
       const user = await this.userRepository.findOneByEmail(data.email)
@@ -97,7 +98,11 @@ export class PlanService {
         acceptedAt: null,
       }
 
-      this.referralRepository.create(referral)
+      await this.referralRepository.create(referral)
+
+      sendEmail({
+        to: user.email,
+      })
     } catch (error) {
       throw new Error(error)
     }
