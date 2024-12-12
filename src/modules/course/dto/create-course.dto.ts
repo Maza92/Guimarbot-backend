@@ -24,6 +24,7 @@ class IdDto {
   @IsPositive()
   id: number
 }
+
 export class CreateCourseDto {
   @ApiProperty()
   @IsString()
