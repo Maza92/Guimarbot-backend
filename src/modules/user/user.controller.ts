@@ -18,7 +18,7 @@ export class UserController {
     status: 200,
     description: 'Return all users for administrative',
   })
-  @ApiResponse({ 
+  @ApiResponse({
     status: 404,
     description: 'Users not found',
   })
@@ -42,7 +42,6 @@ export class UserController {
     return await this.userService.findAllPaymentByUser(Number(params.userId))
   }
 
-
   @Post()
   @ApiBody({ type: CreateUserDto })
   @ApiOperation({ summary: 'Create a user' })
@@ -52,12 +51,11 @@ export class UserController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Bad request'
+    description: 'Bad request',
   })
   async createUser(@Body() data: CreateUserDto): Promise<User> {
     return await this.userService.createUser(data)
   }
-
 
   @Put('/:userId')
   @ApiBody({ type: UpdateUserDto })
@@ -128,5 +126,21 @@ export class UserController {
   @Get('/:userId/roadmaps')
   async getRoadmapsByUserId(@Param('userId') userId: number) {
     return await this.userService.findAllRoadmapsByUserId(userId)
+  }
+
+  @ApiOperation({
+    summary: 'Get plas from user',
+  })
+  @ApiResponse({
+    status: 200,
+    description: `Return all user's plnas that is associate`,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Plan not found',
+  })
+  @Get('/:userId/plans')
+  async getPlansByUserId(@Param('userId') userId: number) {
+    return await this.userService.findPlansByUserId(userId)
   }
 }

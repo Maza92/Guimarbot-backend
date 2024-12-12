@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { sendEmail } from '@lib/send-email'
+// import { sendEmail } from '@lib/send-email'
 import { UserRepository } from '@modules/user/repositories/user.repository'
 import { User } from '@modules/user'
 import { CreatePlanDto } from './dto/create-plan-dto'
@@ -100,9 +100,9 @@ export class PlanService {
 
       await this.referralRepository.create(referral)
 
-      sendEmail({
-        to: user.email,
-      })
+      // sendEmail({
+      //   to: user.email,
+      // })
     } catch (error) {
       throw new Error(error)
     }

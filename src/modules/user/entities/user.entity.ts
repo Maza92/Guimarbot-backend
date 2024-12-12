@@ -77,7 +77,7 @@ export class User {
   roadmaps: Relation<Roadmap[]>
 
   @OneToMany(() => UserPlan, userPlan => userPlan.user)
-  userPlans: Relation<UserPlan[]>
+  plans: Relation<UserPlan[]>
 
   @OneToMany(() => Referral, referral => referral.referrer)
   referrals: Relation<Referral[]>

@@ -124,4 +124,8 @@ export class UserService {
   findUserById(id: number) {
     return this.userRepository.findOneById(id)
   }
+
+  findPlansByUserId(userId: number) {
+    return this.userRepository.findAllPlansByUserId(userId)
+  }
 }

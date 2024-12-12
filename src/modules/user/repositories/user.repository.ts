@@ -176,4 +176,33 @@ export class UserRepository {
       },
     })
   }
+
+  findAllPlansByUserId(userId: number) {
+    return this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+      relations: {
+        plans: {
+          plan: true,
+        },
+      },
+      select: {
+        id: true,
+        names: true,
+        lastName: true,
+        birthDate: true,
+        plans: {
+          isOwner: true,
+          joinedAt: true,
+          status: true,
+          plan: {
+            id: true,
+            name: true,
+            description: true,
+          },
+        },
+      },
+    })
+  }
 }
