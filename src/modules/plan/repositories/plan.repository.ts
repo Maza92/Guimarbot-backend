@@ -22,7 +22,11 @@ export class PlanRepository {
   }
 
   async findOneById(id: number): Promise<Plan> {
-    return this.planRepository.findOne({ where: { id } })
+    return this.planRepository.findOne({
+      where: {
+        id,
+      },
+    })
   }
 
   async update(planId: number, data: UpdatePlanDto) {
@@ -32,7 +36,7 @@ export class PlanRepository {
       },
     })
 
-    if (!planToUpdate) return
+    if (!planToUpdate) return null
 
     this.planRepository.merge(planToUpdate, data)
 

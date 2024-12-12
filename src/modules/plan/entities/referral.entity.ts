@@ -1,4 +1,3 @@
-import { User } from '@modules/user'
 import {
   Column,
   CreateDateColumn,
@@ -8,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm'
+import { User } from '@modules/user'
 import { Plan } from './plan.entity'
 import { ReferralStatus } from '../types'
 

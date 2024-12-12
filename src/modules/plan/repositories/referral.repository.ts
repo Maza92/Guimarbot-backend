@@ -22,10 +22,17 @@ export class ReferralRepository {
     status: ReferralStatus,
   ): Promise<Referral> {
     const updateReferral = await this.referralRepository.findOne({
-      relations: ['plan', 'referrer'],
-      where: { id: referral.id },
+      relations: {
+        plan: true,
+        referrer: true,
+      },
+      where: {
+        id: referral.id,
+      },
     })
+
     updateReferral.status = status
+
     return this.referralRepository.save(updateReferral)
   }
 
@@ -39,21 +46,37 @@ export class ReferralRepository {
   async findCurrentReferralsByOwnerId(userId: number): Promise<User[]> {
     const referrals = await this.referralRepository.find({
       relations: ['referrer'],
-      where: { owner: { id: userId }, status: ReferralStatus.Accepted },
+      where: {
+        owner: {
+          id: userId,
+        },
+        status: ReferralStatus.Accepted,
+      },
     })
+
     return referrals.map(referral => referral.referrer)
   }
 
   async findCountCurrentReferralsByOwnerId(userId: number): Promise<number> {
     return this.referralRepository.count({
-      where: { owner: { id: userId }, status: ReferralStatus.Accepted },
+      where: {
+        owner: {
+          id: userId,
+        },
+        status: ReferralStatus.Accepted,
+      },
     })
   }
 
   async deleteReferralByUserId(userId: number): Promise<void> {
     const referral = await this.referralRepository.findOne({
-      where: { referrer: { id: userId } },
+      where: {
+        referrer: {
+          id: userId,
+        },
+      },
     })
+
     await this.referralRepository.delete(referral.id)
   }
 }

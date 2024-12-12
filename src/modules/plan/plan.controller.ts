@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Req,
+} from '@nestjs/common'
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger'
 import { CreatePlanDto } from './dto/create-plan-dto'
 import { CreateUserPlanDto } from './dto/create-user-plan-dto'
@@ -6,6 +15,7 @@ import { CreateReferralDto } from './dto/create-referral-dto'
 import { ReferralCountDto } from './dto/referral-response-dto'
 import { UpdatePlanDto } from './dto/update-plan-dto'
 import { PlanService } from './plan.service'
+import { Request } from 'express'
 
 @Controller('/api/plan')
 export class PlanController {
@@ -54,8 +64,11 @@ export class PlanController {
   @Post('/referral')
   @ApiOperation({ summary: 'Create referral' })
   @ApiResponse({ status: 201, description: 'Referral created' })
-  async createReferral(@Body() data: CreateReferralDto) {
-    return await this.planService.createReferral(data)
+  async createReferral(@Body() data: CreateReferralDto, @Req() req: Request) {
+    return await this.planService.createReferral({
+      ...data,
+      host: req.headers.host,
+    })
   }
 
   @Get('referral/:token')
@@ -65,7 +78,7 @@ export class PlanController {
     return await this.planService.findReferralByToken(token)
   }
 
-  @Post('referral/:token/accept')
+  @Post('referral/verifation/:token/accept')
   @ApiOperation({ summary: 'Accept referral' })
   @ApiResponse({ status: 200, description: 'Referral accepted' })
   async acceptReferral(@Param('token') token: string) {

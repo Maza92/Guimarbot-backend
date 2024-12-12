@@ -1,4 +1,3 @@
-import { User } from '@modules/user'
 import {
   Column,
   CreateDateColumn,
@@ -8,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm'
+import { User } from '@modules/user'
 import { Plan } from './plan.entity'
 import { PlanStatus } from '../types'
 
@@ -16,7 +16,7 @@ export class UserPlan {
   @PrimaryGeneratedColumn()
   id: number
 
-  @ManyToOne(() => User, user => user.userPlans)
+  @ManyToOne(() => User, user => user.plans)
   @JoinColumn({ name: 'user_id' })
   user: Relation<User>
 
@@ -29,6 +29,9 @@ export class UserPlan {
 
   @CreateDateColumn()
   joinedAt: Date
+
+  @Column()
+  expiredAt: Date
 
   @Column({
     type: 'enum',
