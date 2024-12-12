@@ -18,6 +18,14 @@ export class PlanController {
     return await this.planService.findAll()
   }
 
+  @Get(':planId')
+  @ApiOperation({ summary: 'Get plan by id' })
+  @ApiResponse({ status: 200, description: 'Return plan by id' })
+  @ApiResponse({ status: 404, description: 'Plan not found' })
+  async getPlanById(@Param('planId') planId: number) {
+    return await this.planService.findPlanById(planId)
+  }
+
   @Post()
   @ApiOperation({ summary: 'Create plan' })
   @ApiResponse({ status: 201, description: 'Plan created' })

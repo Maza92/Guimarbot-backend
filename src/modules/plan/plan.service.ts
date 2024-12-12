@@ -170,4 +170,8 @@ export class PlanService {
 
     return plan
   }
+
+  findPlanById(planId: number) {
+    return this.planRepository.findOneById(planId)
+  }
 }
